@@ -11,6 +11,15 @@ body{
     font-size: 60px;
     margin: 64 0 54 44;
     cursor: default;
+    width: auto;
+}
+#title::after{
+    content: '';
+    width: 100%;
+    height: 4px;
+    background-color: black;
+    display: block;
+    margin: auto;
 }
 #list{
     list-style: none;
@@ -22,6 +31,10 @@ body{
 }
 .list-item{
     margin: 20 0 0 0;
+}
+.button{
+    text-decoration: none;
+    color: black;
 }
 .list-item:hover{
     cursor: hand;
