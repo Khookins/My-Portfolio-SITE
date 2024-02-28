@@ -16,6 +16,7 @@ body{
     padding: 64 0 0 0;
     cursor: default;
     width: fit-content;
+    z-index: 0;
 }
 
 @keyframes expand {
@@ -79,12 +80,22 @@ body{
     transition-property: width;
     transition-duration: 500ms;
 }
-.static{
+.active{
+    z-index: -100;
+}
+.bg:not(.active){
+    z-index: -1000;
+}
+.bg{
     position: absolute;
     overflow: hidden;
-    z-index: -200;
     scale: 1.5;
 }
-#white{
-    z-index: -300;
+.eye{
+    position: absolute;
+    top: calc(48% - 65px);
+    left:calc(50% - 130px);
+    visibility: hidden;
+    z-index: 1;
 }
+
