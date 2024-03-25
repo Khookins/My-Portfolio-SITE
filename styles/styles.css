@@ -1,5 +1,9 @@
 *{
-
+/* SUS FILLER COMMENT */
+--ClassicPurple:#8200c5;
+--LightPurple:#b31aff;
+--LightOrange:#ffa36b;
+--ClassicOrange:#ff8133;
 }
 body{
     font-family: "Source Code Pro", monospace;
@@ -9,6 +13,8 @@ body{
     overflow: hidden;
     margin: 0 0 0 0;
     padding: 0 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 #title{
     font-size: 60px;
@@ -82,9 +88,11 @@ body{
 }
 .active{
     z-index: -100;
+    opacity: 1;
 }
 .bg:not(.active){
     z-index: -1000;
+    opacity: 0;
 }
 .bg{
     position: absolute;
@@ -98,4 +106,77 @@ body{
     visibility: hidden;
     z-index: 1;
 }
+@keyframes susFrames{
+    0%{opacity: 100%;}
+    40%{opacity: 100%;}
+    100%{opacity: 0%; visibility: hidden;}
+}
+.visible{
+    visibility: visible;
+    animation-name: susFrames;
+    animation-duration: 500ms;
+    animation-timing-function: cubic-bezier(.8,.15,.2,.85);
+    animation-fill-mode: forwards;
+}
+#back-container{
+    padding-inline-start: 44px;
+    margin: 0 0 0 0;
+    margin-top: 180;
+}
+#back-button{
+    font-size: 34px;
+}
+#right{
+    flex-grow: 1;
+    max-width: 68%;
+    overflow-wrap: break-word;
+}
+#left{
+    width: 32%;
+    max-width: 32%;
+}
+#content{
+    background-color: hsla(0, 0%, 100%, 0.7);
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 10 10 10 10;
+    margin: 82 0 0 72;
+    height: 82%;
+    width: 88%;
+    box-shadow: 0 20px 20px #0000002e;
+}
+.hidden{
+    visibility: hidden;
+}
+.not-hidden{
+    visibility: visible;
+}
+#screen-transition{
+    position: absolute;
+    z-index: 250;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    top: -100%;
 
+    transition-property: top;
+    transition-duration: 1s;
+    transition-timing-function: ease-in-out;
+}
+footer{
+    background-color: #8200c5;
+    width: 100%;
+    height: 4%;
+    max-height: 4%;
+    bottom: 0;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    padding-left: 5px;
+}
+.icon{
+    height: 16px;
+    width: 16px;
+    object-fit: fill;
+}

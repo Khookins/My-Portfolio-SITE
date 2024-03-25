@@ -1,10 +1,130 @@
 var safeBG = true
 var isHomepage = true
 
-document.addEventListener("DOMContentLoaded",(event) => {
+async function loadPage(pageLink){
+    try{
+        const response = await fetch(pageLink)
+        const pageContent = await response.text()
+        document.getElementById("content").innerHTML = pageContent
+        console.log(pageContent)
+    }
+    catch(error){
+        console.log(error)
+        window.close()
+    }
+
+}
+function resetScreenTransition(){
+    document.getElementById("screen-transition").style.transitionProperty = "none"
+    document.getElementById("screen-transition").offsetHeight
+    document.getElementById("screen-transition").style.top = "-100%"
+    document.getElementById("screen-transition").offsetHeight
+    document.getElementById("screen-transition").style.transitionProperty = "top"
+}
+
+function screenTransition(){
+    setTimeout(transTitle, 500)
+    document.getElementById("screen-transition").style.top = "100%"
+    setTimeout(resetScreenTransition, 1000)
+}
+function transTitle(){
     let title = document.getElementById("title")
-    title.classList.add("animate-on-load")
-    console.log("something happened")
+    title.classList.remove("animate-on-load")
+    title.offsetHeight
+    title.classList.add("animate-on-load")  
+    //document.getElementById("screen-transition").style.top = "-100%"
+}
+function backClicked(){
+    isHomepage = !isHomepage
+    var links = document.getElementsByClassName("link")
+    
+
+
+    setTimeout(() => {
+        for (var i = 0; i < links.length; i++){
+            links.item(i).classList.remove("hidden")
+        }
+        activeToggle("")
+    }, 500)
+    setTimeout(() => {
+        document.getElementById("back-container").classList.add("hidden")
+        document.getElementsByTagName("footer").item(0).style.backgroundColor = "#8200c5"
+    }, 800)
+    screenTransition()
+}
+function linkClicked(){
+    isHomepage = !isHomepage
+    var links = document.getElementsByClassName("link")
+   
+
+    setTimeout(() => {
+        for (var i = 0; i < links.length; i++){
+            links.item(i).classList.add("hidden")
+        }
+        if(safeBG){
+            activeToggle("gray")
+        }
+        else{
+            activeToggle("white")
+        }
+    }, 500)
+    setTimeout(() => {
+        document.getElementById("back-container").classList.remove("hidden")
+        document.getElementsByTagName("footer").item(0).style.backgroundColor = "#ff8133"
+    }, 800)
+    screenTransition()
+}
+function about(){
+    linkClicked()
+    setTimeout(() => {
+        loadPage("pages/about.html")
+        document.getElementById("title").textContent = "ABOUT"
+    },500)
+    console.log("sus")
+}
+function projects(){
+    linkClicked()
+    setTimeout(() => {
+        loadPage("pages/projects.html")
+        document.getElementById("title").textContent = "PROJECTS"
+    },500)
+}
+function skills(){
+    linkClicked()
+    setTimeout(() => {
+        loadPage("pages/skills.html")
+        document.getElementById("title").textContent = "SKILLS"
+    },500)
+}
+function hobbies(){
+    linkClicked()
+    setTimeout(() => {
+        loadPage("pages/hobbies.html")
+        document.getElementById("title").textContent = "HOBBIES"
+    },500)
+}
+function home(){
+    backClicked()
+    setTimeout(() => {
+        loadPage("pages/home.html")
+            document.getElementById("title").textContent = "MY PORTFOLIO"
+    },500)
+}
+function showEye(eye){
+    var eyeOn = document.getElementById("epilepsy-mode-on")
+    var eyeOff = document.getElementById("epilepsy-mode-off")
+    if (eye == true){
+        eyeOff.classList.remove("visible")
+        eyeOn.classList.add("visible")
+    }
+    if (eye == false){
+        eyeOn.classList.remove("visible")
+        eyeOff.classList.add("visible")
+    }
+}
+
+document.addEventListener("DOMContentLoaded",(event) => {
+    transTitle()
 })
 
 document.addEventListener("keypress", (event) => {
@@ -22,28 +142,23 @@ document.addEventListener("keypress", (event) => {
         else if(isHomepage){
             activeToggle("")
         }
+        showEye(safeBG)
     }
 })
 
 function moveImage() {
-    if (true){
-        let roll = Math.random() * 100 //random number between 0-100
+    if (!safeBG){
 
-        var imageToSelect;
-        var imageToHide;
+        var activeStatic
+        var inactiveStatic
 
-        if (roll < -1) { // < -1 will be always pink, < 101 will be always white, < 50 will be 50/50 chance
-            imageToSelect = 1
-            imageToHide = 0
+        var staticArray = document.getElementsByClassName("static")
+        for (var i = 0; i < staticArray.length ; i++){
+            if (staticArray.item(i).classList.contains("active")){
+                activeStatic = staticArray.item(i)
+                inactiveStatic = staticArray.item((i + 1) %staticArray.length)
+            }
         }
-        else
-        {
-            imageToSelect = 0
-            imageToHide = 1
-        }
-
-        var activeStatic = document.getElementsByClassName("static").item(imageToSelect)
-        var inactiveStatic = document.getElementsByClassName("static").item(imageToHide)
 
         activeStatic.style.opacity = 1
         inactiveStatic.style.opacity = 0
@@ -55,7 +170,7 @@ function moveImage() {
     
 }
 
-setInterval(moveImage, 1000 / 120)
+setInterval(moveImage, 1000 / 60)
 
 function getRandOffset(){
     // website size
@@ -109,4 +224,5 @@ function test(amount){
     return value
 }
 
+loadPage("pages/home.html")
 console.log(test(10))
